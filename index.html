@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>club penguin real!!!</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #FFFFFF; /* White background by default */
+    }
+    #container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+    }
+    #player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        width: 100px; /* Adjust width */
+        height: 100px; /* Adjust height */
+        transition: top 0.5s, left 0.5s; /* Smooth transition */
+    }
+    #igloo {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        width: 100px;
+        height: 100px;
+    }
+    #iglooGif {
+        position: absolute;
+        top: 130px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <img id="player" src="https://static.wikia.nocookie.net/clubpenguin/images/e/e7/Normal_Penguin112233.png/revision/latest/scale-to-width-down/250?cb=20140723221240" alt="Player" width="150" height="150">
+    <img id="igloo" src="https://static.wikia.nocookie.net/newclubpenguin/images/1/16/Igloo_Icon.png/revision/latest?cb=20200807073112" alt="Igloo" width="150" height="150">
+    <img id="iglooGif" src="https://static.wikia.nocookie.net/ac8f29a6-4f97-451a-87d4-99b97647d7a2/scale-to-width/755" alt="Inside Igloo" width="200" height="200">
+</div>
+<script>
+    var player = document.getElementById('player');
+    var igloo = document.getElementById('igloo');
+    var iglooGif = document.getElementById('iglooGif');
+
+    // Variables to track player state
+    var insideIgloo = false;
+    var isWalking = false;
+
+    // Function to move the player
+    function movePlayer(x, y) {
+        player.style.left = x + 'px';
+        player.style.top = y + 'px';
+        startWalking();
+        setTimeout(stopWalking, 1000); // Stop walking after 1 second
+    }
+
+    // Function to make the player start walking animation
+    function startWalking() {
+        if (!isWalking) {
+            isWalking = true;
+            player.src = 'https://cdn3.emoji.gg/emojis/3946_Penguin_walk.gif';
+        }
+    }
+
+    // Function to make the player stop walking animation
+    function stopWalking() {
+        isWalking = false;
+        player.src = 'https://static.wikia.nocookie.net/clubpenguin/images/e/e7/Normal_Penguin112233.png/revision/latest/scale-to-width-down/250?cb=20140723221240'; // Change back to regular image
+    }
+
+    // Function to make the player do a waving dance
+    function startDance() {
+        if (!isWalking) {
+            player.src = 'https://i.pinimg.com/originals/c6/70/22/c6702257ba9dbc49a2f07baa7d361ab8.gif';
+            setTimeout(stopDance, 7000); // Stop dancing after 7 seconds
+        }
+    }
+
+    // Function to stop the dancing
+    function stopDance() {
+        player.src = 'https://static.wikia.nocookie.net/clubpenguin/images/e/e7/Normal_Penguin112233.png/revision/latest/scale-to-width-down/250?cb=20140723221240'; // Change back to regular image
+    }
+
+    // Function to handle click events
+    function handleClick(e) {
+        var container = document.getElementById('container');
+        var containerRect = container.getBoundingClientRect();
+        var containerX = containerRect.left;
+        var containerY = containerRect.top;
+        var newX = e.clientX - containerX - player.width / 2;
+        var newY = e.clientY - containerY - player.height / 2;
+        movePlayer(newX, newY);
+    }
+
+    // Function to handle igloo click
+    function handleIglooClick() {
+        if (insideIgloo) {
+            // Move player outside igloo
+            movePlayer(window.innerWidth / 2 - player.width / 2, window.innerHeight / 2 - player.height / 2);
+            document.body.style.backgroundColor = '#FFFFFF'; // Change background to white
+            iglooGif.style.display = 'none'; // Hide igloo GIF
+        } else {
+            // Move player inside igloo
+            movePlayer(window.innerWidth / 2 - player.width / 2, window.innerHeight / 2 - player.height / 2);
+            document.body.style.backgroundColor = '#87CEEB'; // Change background to blue
+            iglooGif.style.display = 'block'; // Show igloo GIF
+        }
+        insideIgloo = !insideIgloo;
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('click', handleClick);
+        igloo.addEventListener('click', handleIglooClick);
+
+        // Event listener for 'D' key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'D' || event.key === 'd') {
+                startDance();
+            }
+        });
+    });
+</script>
+</body>
+</html>
